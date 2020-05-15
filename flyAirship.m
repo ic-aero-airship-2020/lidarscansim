@@ -1,4 +1,4 @@
-function flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1,fig2,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset)
+function lidarData = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1,fig2,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset)
     sampleTime = 0.05;             % Sample time [s]
     t = 0:sampleTime:500;         % Time array
     poses = zeros(3,numel(t));    % Pose matrix
@@ -40,9 +40,13 @@ function flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1,fig2,frontS
         lidarData{3,idx} = rightScan;
         
         frontValidScan = removeInvalidData(frontScan,'RangeLimits',[0,frontSensor.Range(2)]);
-        
-        
+        leftValidScan = removeInvalidData(leftScan,'RangeLimits',[0,leftSensor.Range(2)]);
+        rightValidScan = removeInvalidData(rightScan,'RangeLimits',[0,rightSensor.Range(2)]);
+
         insertRay(map2,position,frontValidScan,frontSensor.Range(2));
+        insertRay(map2,leftPosition,leftValidScan,leftSensor.Range(2));
+        insertRay(map2,rightPosition,rightValidScan,rightSensor.Range(2));
+
         show(map2);
         
         % Run the Pure Pursuit controller and convert output to wheel speeds

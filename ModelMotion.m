@@ -4,13 +4,13 @@ close all;
 
 %% Testing on basic map
 load exampleMaps.mat
-% referenceMap = binaryOccupancyMap(simpleMap,1);
+referenceMap = binaryOccupancyMap(simpleMap,1);
 
 %% Generating Map of CAGB and Skem
 actualLayout = imread('Map/Actual Layout.png');
 simplifiedLayout = imread('Map/Simplified 2D Layout.png');
 bwImage = simplifiedLayout > 0;
-referenceMap = binaryOccupancyMap(bwImage,8);
+% referenceMap = binaryOccupancyMap(bwImage,8);
 
 
 figure('Name','Comparing layout');
@@ -45,9 +45,11 @@ maxThrust = Inf;
 minThrust = -Inf;
 cruiseSpeed = 2; % m/s
 maxAngularVelocity = 3; % rads/s
+
 sensorMaxRange = 10; % m
-leftSensorOffset = pi/2; % rad
-rightSensorOffset = -pi/2; % rad
+sensorFieldOfVision = 20/180*pi; % rad
+leftSensorOffset = pi*2/3; % rad
+rightSensorOffset = -pi*2/3; % rad
 % ###############################################################
 
 % driver initialisation
@@ -63,10 +65,13 @@ controller = controllerPurePursuit(...
 % sensor initialisation
 frontSensor = rangeSensor;
 frontSensor.Range = [0,sensorMaxRange];
+frontSensor.HorizontalAngle = [-sensorFieldOfVision/2, sensorFieldOfVision/2];
 leftSensor = rangeSensor;
 leftSensor.Range = [0,sensorMaxRange];
+leftSensor.HorizontalAngle = [-sensorFieldOfVision/2, sensorFieldOfVision/2];
 rightSensor = rangeSensor;
 rightSensor.Range = [0,sensorMaxRange];
+rightSensor.HorizontalAngle = [-sensorFieldOfVision/2, sensorFieldOfVision/2];
 
 % Simulates the manual flying of the drone initially to collect data
 path = [186.4, 108.2;
@@ -103,7 +108,7 @@ path = [186.4, 108.2;
         74.94, 24.69;
         66.44, 24.44;];
 
-% path = [4 6; 6.5 12.5; 4 22; 12 14; 22 22; 16 12; 20 10; 14 6; 22 3];
+path = [4 6; 6.5 12.5; 4 22; 12 14; 22 22; 16 12; 20 10; 14 6; 22 3];
     
 % Manual driving path plotted
 figure(refFig)
@@ -117,7 +122,8 @@ controller.Waypoints = path;
 initPose = [path(1,1) path(1,2), pi/2];
 goal = [path(end,1) path(end,2)]';
 poses(:,1) = initPose';
-flyAirship(diffDrive,controller,initPose,goal,referenceMap,generatedMap,refFig,genFig,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset);
+onSimumation = false; % To display simulation, change value to True
+lidarData = flyAirship(diffDrive,controller,initPose,goal,referenceMap,generatedMap,refFig,genFig,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset);
 
 
 %% Creating visual model of the airship
