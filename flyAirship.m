@@ -1,4 +1,4 @@
-function lidarData = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1,fig2,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset)
+function [lidarData,map2] = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1,fig2,frontSensor,leftSensor,rightSensor,leftSensorOffset,rightSensorOffset,frameSize)
     sampleTime = 0.05;             % Sample time [s]
     t = 0:sampleTime:500;         % Time array
     poses = zeros(3,numel(t));    % Pose matrix
@@ -8,8 +8,8 @@ function lidarData = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1
     r = rateControl(1/sampleTime);
 
     % Get the axes from the figures
-    ax1 = fig1.CurrentAxes;
-    ax2 = fig2.CurrentAxes;
+    ax1 = fig1; %fig1.CurrentAxes;
+    ax2 = fig2; %fig2.CurrentAxes;
     
     lidarData = cell(3,numel(t));
     
@@ -27,7 +27,8 @@ function lidarData = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1
         end
         
         % Update map by taking sensor measurements
-        figure(fig2)
+%         figure(fig2)
+%         fig2;
         [ranges, angles] = frontSensor(position, map1);
         frontScan = lidarScan(ranges,angles);
         [ranges, angles] = leftSensor(leftPosition, map1);
@@ -68,9 +69,9 @@ function lidarData = flyAirship(diffDrive,ppControl,initPose,goal,map1,map2,fig1
         end
     
         %plot robot onto known map
-        plotTransforms(plotTrvec', plotRot, 'MeshFilePath', 'groundvehicle.stl', 'View', '2D', 'FrameSize', 5, 'Parent', ax1);
+        plotTransforms(plotTrvec', plotRot, 'MeshFilePath', 'groundvehicle.stl', 'View', '2D', 'FrameSize', frameSize, 'Parent', ax1);
         %plot robot on new map
-        plotTransforms(plotTrvec', plotRot, 'MeshFilePath', 'groundvehicle.stl', 'View', '2D', 'FrameSize', 5, 'Parent', ax2);
+        plotTransforms(plotTrvec', plotRot, 'MeshFilePath', 'groundvehicle.stl', 'View', '2D', 'FrameSize', frameSize, 'Parent', ax2);
     
         % waiting to iterate at the proper rate
         waitfor(r);
