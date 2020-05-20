@@ -2683,3 +2683,9 @@ DirectionalLight {
   intensity 0.5
   direction 0 -1 0
 }
+DEF TopDownCam Viewpoint {
+  description "TopDownCam
+"
+  position 0 400 0
+  orientation 1 0 0 -1.5708
+}
