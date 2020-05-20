@@ -4,12 +4,13 @@ clc
 close all
 
 %% Step 0. Setting up the simualation
+addpath('./HelperFunctions/');
 % Choosing the map to run the simulation on
 % ######## Choose map complexity ########
 % 1 - simple map complexity
 % 2 - complex map complexity
 % 3 - imperial map complexity
-complexity = 2;
+complexity = 3;
 % #######################################
 [manualFig,referenceMap,manualPath,frameSize] = SetupSimulationEnvironment(complexity);
 
@@ -28,7 +29,7 @@ rightSensorOffset = -pi*2/3; % rad
 % ###############################################################
 [diffDrive,controller,frontSensor,leftSensor,rightSensor] = SetupAirship(thrustVectorDist,maxThrust,minThrust,cruiseSpeed,maxAngularVelocity,sensorMaxRange,sensorFieldOfVision);
 
-
+Setup3DSimulationEnvironment(referenceMap)
 %% Step 1. Manual flight simulation to generate a known map
 % blank map to be populated
 mapXDim = referenceMap.XWorldLimits(2);

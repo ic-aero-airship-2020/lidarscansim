@@ -3,10 +3,14 @@ clc
 close all
 
 %% Testing on selected map
+addpath('./HelperFunctions/');
+% Choosing the map to run the simulation on
+% ######## Choose map complexity ########
 % 1 - simple map complexity
 % 2 - complex map complexity
 % 3 - imperial map complexity
-complexity = 1;
+complexity = 2;
+% #######################################
 [manualFig,referenceMap,manualPath,frameSize] = SetupSimulationEnvironment(complexity);
 
 
