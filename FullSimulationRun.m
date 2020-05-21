@@ -10,9 +10,9 @@ addpath('./HelperFunctions/');
 % 1 - simple map complexity
 % 2 - complex map complexity
 % 3 - imperial map complexity
-complexity = 3;
+complexity = 2;
 % #######################################
-[manualFig,referenceMap,manualPath,frameSize] = SetupSimulationEnvironment(complexity);
+[manualFig,referenceMap,manualPath,frameSize,bwImage] = SetupSimulationEnvironment(complexity);
 
 % Configuring airship and its kinematics
 % ######## Change these when the actual build is defined ########
@@ -29,7 +29,7 @@ rightSensorOffset = -pi*2/3; % rad
 % ###############################################################
 [diffDrive,controller,frontSensor,leftSensor,rightSensor] = SetupAirship(thrustVectorDist,maxThrust,minThrust,cruiseSpeed,maxAngularVelocity,sensorMaxRange,sensorFieldOfVision);
 
-Setup3DSimulationEnvironment(referenceMap)
+[virtualWorld,virtualWorldFigure] = Setup3DSimulationEnvironment(referenceMap,bwImage,[manualPath(1,2) manualPath(1,1)]);
 %% Step 1. Manual flight simulation to generate a known map
 % blank map to be populated
 mapXDim = referenceMap.XWorldLimits(2);
@@ -61,7 +61,8 @@ switch complexity
         goal = [3.65, 3.55, 0];
     case 2
         start = [46.5, 35.5 pi/2];
-        goal = [13.5, 22.5, 0];
+%         goal = [13.5, 22.5, 0];
+        goal = [46.05, 5.75, 0];
     case 3
         start = [185.1, 112.6, pi];
         goal = [66.44, 24.44, pi];

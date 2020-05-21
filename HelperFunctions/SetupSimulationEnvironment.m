@@ -1,13 +1,15 @@
-function [refFig,referenceMap,manualPath,frameSize] = SetupSimulationEnvironment(complexity)
+function [refFig,referenceMap,manualPath,frameSize,bwImage] = SetupSimulationEnvironment(complexity)
     switch complexity
         case 1
             load("exampleMaps.mat", "simpleMap");
             referenceMap = binaryOccupancyMap(simpleMap,1);
             frameSize = 1;
+            bwImage = simpleMap;
         case 2
             load("exampleMaps.mat", "complexMap");
             referenceMap = binaryOccupancyMap(complexMap,1);
             frameSize = 1;
+            bwImage = complexMap;
         case 3
             actualLayout = imread('Map/Actual Layout.png');
             simplifiedLayout = imread('Map/Simplified 2D Layout.png');
