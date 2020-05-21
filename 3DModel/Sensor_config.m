@@ -1,4 +1,4 @@
-%code to determine where a good sensor location should be
+%code to assist aid of judgement in where good sensor location should be
 
 clear
 clc
