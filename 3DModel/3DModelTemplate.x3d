@@ -44,9 +44,25 @@
     </IndexedFaceSet>
   </Shape>
 </Transform>
+<Group DEF='Obstacles' >
+  <Transform DEF='Walls' >
+    <Shape DEF='MainWalls' >
+      <Appearance>
+        <TextureTransform scale='6 2'>
+        </TextureTransform>
+        <ImageTexture url='"*sl3dlib/objects/Textures/General/Brick_Stone.png" '>
+        </ImageTexture>
+        <Material diffuseColor='0.25 0.25 0.25'>
+        </Material>
+      </Appearance>
+      <Extrusion spine='0 0 0 0 5 0' solid='false' endCap='false' crossSection='0 0 10 10' beginCap='false'>
+      </Extrusion>
+    </Shape>
+  </Transform>
+</Group>
 <Transform DEF='Airship'  translation='0 1 0' rotation='0 1 0 0'>
   <Transform DEF='Balloon'  rotation='0 1 0 -1.5708'>
-    <TimeSensor DEF='Balloon-TIMER'  cycleInterval='3.333' loop='true'>
+    <TimeSensor DEF='Balloon-TIMER'  loop='true' cycleInterval='3.333'>
     </TimeSensor>
     <Shape>
       <Appearance>
@@ -344,23 +360,12 @@
         </Transform>
       </Transform>
     </Transform>
+    <Viewpoint DEF='SensorCam'  description='SensorCam
+' position='0 -0.8 -0.3'>
+    </Viewpoint>
   </Transform>
+  <Viewpoint DEF='ChaseCam'  description='ChaseCam' position='-4 0.75 0' orientation='-0.2 -1.5651 -0.2 1.59'>
+  </Viewpoint>
 </Transform>
-<Group DEF='Obstacles' >
-  <Transform DEF='Walls' >
-    <Shape DEF='MainWalls' >
-      <Appearance>
-        <TextureTransform scale='6 2'>
-        </TextureTransform>
-        <ImageTexture url='"*sl3dlib/objects/Textures/General/Brick_Stone.png" '>
-        </ImageTexture>
-        <Material diffuseColor='0.25 0.25 0.25'>
-        </Material>
-      </Appearance>
-      <Extrusion spine='0 0 0 0 5 0' solid='false' endCap='false' crossSection='0 0 10 10' beginCap='false'>
-      </Extrusion>
-    </Shape>
-  </Transform>
-</Group>
 </Scene>
 </X3D>
