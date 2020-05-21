@@ -24,6 +24,7 @@ To download the repo, run the following commands
 mkdir GDP
 cd GDP
 git clone https://github.com/ic-aero-airship-2020/lidarscansim.git .
+echo $'*.m~\nslprj/*' > .gitignore
 ```
 
 
