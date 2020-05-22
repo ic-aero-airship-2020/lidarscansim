@@ -4,14 +4,18 @@ clc
 close all
 
 %% Step 0. Setting up the simualation
+% Adding folders to path
 addpath('./HelperFunctions/');
 addpath('./3DModel/');
+addpath('./Map/');
+addpath('./SimulinkModels/');
+
 % Choosing the map to run the simulation on
 % ######## Choose map complexity ########
 % 1 - simple map complexity
 % 2 - complex map complexity
 % 3 - imperial map complexity
-complexity = 2
+complexity = 2;
 % #######################################
 [manualFig,referenceMap,manualPath,frameSize,bwImage] = SetupSimulationEnvironment(complexity);
 
