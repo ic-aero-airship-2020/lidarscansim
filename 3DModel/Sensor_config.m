@@ -1,4 +1,4 @@
-%code to assist aid of judgement in where good sensor location should be
+%code to determine where a good sensor location should be
 
 clear
 clc
@@ -34,7 +34,7 @@ end
 % define sensor shape array in x-z plane centred at origin in y- direction 
 SMAT = [Sensor.ToFSensor.Shape(1,:);zeros(1,length(Sensor.ToFSensor.Shape(1,:)));Sensor.ToFSensor.Shape(2,:)];
 %Find coordinate on the sensor line to place sensor
-ang_Place = -14;  %between -90 and - 90 degrees
+ang_Place = 0;  %between -90 and - 90 degrees
 idx = 91 + ang_Place;
 for i = 1:SenLines
     SPlace(:,:,i) = NMAT(:,idx,i);
@@ -75,23 +75,23 @@ CONE     = mesh(x_cone,rangeToF,z_cone);
     
 %% create a gondola sensor bay
 %first determine offset
-gond_height = 0.22; %gondola height
-offset = radius + gond_height + Sensor.ToFSensor.Size(2)/2;
+gond_height = 0.05; %gondola height
+offset = radius + gond_height/2 + Sensor.ToFSensor.Size(2)/2;
 %define number of sensors and the number of the 
 num_gondsensors = 3;       %number of sensors on the gondola
 gond_ang = 30;             % angle between sensors
-setting_ang = -15;         % angle of inclination of the sensor on thhhe gondola
+gond_set_ang = -13.5;         % angle of inclination of the sensor on thhhe gondola
 gond_ang_set = [ 60 180 300 ]; % want to determine angle rotation about the z- axis 
-foc_len = Sensor.ToFSensor.Size(2)/2 * 1/tand(15); % length from focus to centre of the sensor
+foc_len = 0.11;%Sensor.ToFSensor.Size(2)/2 * 1/tand(15); % length from focus to centre of the sensor
 gond_place   = [foc_len*cosd(gond_ang_set+90);foc_len*sind(gond_ang_set+90);-offset*ones(1,num_gondsensors)];
 for i = 1:num_gondsensors
-GNMAT(:,:,i)= rotz(gond_ang_set(i))*rotx(setting_ang)*SMAT + gond_place(:,i);
+GNMAT(:,:,i)= rotz(gond_ang_set(i))*rotx(gond_set_ang)*SMAT + gond_place(:,i);
 end
 
 for i = 1:num_gondsensors
     for j = 1:length(rangeToF)
         %transalte and rotate cone matrix to sensor location
-        CMAT=rotz(gond_ang_set(i))*rotx(setting_ang)*[x_cone(j,:);rangeToF(j,:);z_cone(j,:)]+ gond_place(:,i);
+        CMAT=rotz(gond_ang_set(i))*rotx(gond_set_ang)*[x_cone(j,:);rangeToF(j,:);z_cone(j,:)]+ gond_place(:,i);
         Gx_cone(j,:,i) = CMAT(1,:);
         GrangeToF(j,:,i)= CMAT(2,:);
         Gz_cone(j,:,i)  = CMAT(3,:);
