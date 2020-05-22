@@ -4,6 +4,14 @@ clear
 clc
 close all
 
+%Variables desired:
+%Splace     - sensor position vector on the envelope
+%gond_place - sensor position vector on the gondola
+%ang_place  - placemnet angle on the envelope .Assumed sphere and ranges from -90 to 90. 0 correspons to horintal placemnet along the circumfrence
+%Cone_angle_place - inclination of the sensor from the horizontal plane
+%gond_set_ang - inclination angles for the gondola sensors
+%ang_set   - rotation angles about the z- axis of the envelope sensors
+%gond_angg_set - rotation angles about the z-axis for the gondola sensors
 
 
 %call sensor database
@@ -53,11 +61,12 @@ x_cone   = rad_cone'.*cos(omega);
 z_cone   = rad_cone'.*sin(omega);
 rangeToF = rangeToF'.*ones(180,60);
 CONE     = mesh(x_cone,rangeToF,z_cone);
+Cone_angle_place = -13.5; %angle of inclination from the horizontal pplane from the sensor
 
 
     for j = 1:length(rangeToF)
         %transalte and rotate cone matrix to sensor location
-        CMAT=rotx(ang_Place)*[x_cone(j,:);rangeToF(j,:);z_cone(j,:)];
+        CMAT=rotx(Cone_angle_place)*[x_cone(j,:);rangeToF(j,:);z_cone(j,:)];
         Sx_cone(j,:) = CMAT(1,:);
         SrangeToF(j,:)= CMAT(2,:);
         Sz_cone(j,:)  = CMAT(3,:);
