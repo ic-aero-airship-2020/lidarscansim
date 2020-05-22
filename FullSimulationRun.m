@@ -31,11 +31,11 @@ rightSensorOffset = -pi*2/3; % rad
 [diffDrive,controller,frontSensor,leftSensor,rightSensor] = SetupAirship(thrustVectorDist,maxThrust,minThrust,cruiseSpeed,maxAngularVelocity,sensorMaxRange,sensorFieldOfVision);
 
 [virtualWorld,virtualWorldFigure] = Setup3DSimulationEnvironment(referenceMap,bwImage,[manualPath(1,2) manualPath(1,1)]);
-sim('Closed_Loop_Model.slx');
-yaw = out.logs(:,1);
-x   = out.logs(:,2);
-y   = out.logs(:,3);
-z   = out.logs(:,4);
+simOut = sim('Closed_Loop_Model.slx');
+yaw = simOut.logs(:,1);
+x   = simOut.logs(:,2);
+y   = simOut.logs(:,3);
+z   = simOut.logs(:,4);
 
 %% Step 1. Manual flight simulation to generate a known map
 % blank map to be populated
